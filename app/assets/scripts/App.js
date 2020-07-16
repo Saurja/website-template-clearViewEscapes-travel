@@ -2,7 +2,6 @@ import '../styles/styles.css'
 import MobileMenu from './modules/MobileMenu'
 import RevealOnScroll from './modules/RevealOnScroll'
 import StickyHeader from './modules/StickyHeader';
-import Modal from './modules/Modal'
 
 
 if (module.hot) {
@@ -10,11 +9,23 @@ if (module.hot) {
 }
 
 /*      Code Below      */
-
-new Modal()
-
+let modal 
 let mobileMenu = new MobileMenu();
 let stickyHeader = new StickyHeader();
+
+
+document.querySelectorAll(".open-modal").forEach(el => {
+    el.addEventListener("click", e => {
+        if (typeof modal == 'undefined') {
+            import('./modules/Modal').then(x => {
+                modal = new x .default()
+                setTimeout(() => modal.openTheModal(), 20)
+            }).catch(() => console.log("There was a Problem"))
+        } else {
+            modal.openTheModal()
+        }
+    })
+})
 
 new RevealOnScroll(document.querySelectorAll(".feature-item"), 75)
 new RevealOnScroll(document.querySelectorAll(".testimonial"), 60)
